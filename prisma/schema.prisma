@@ -1,0 +1,111 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  email       String
+  password    String
+  createdDate DateTime @default(now())
+  updatedDate DateTime @updatedAt
+}
+
+model Blogtag {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  createdDate DateTime @default(now())
+  updatedDate DateTime @updatedAt
+}
+
+model BlogTable {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  slug        String
+  title       String   @default("")
+  subtitle    String   @default("")
+  description String   @default("")
+  body        String   @default("")
+  tag         String   @default("")
+  crDate      String   @default("")
+  viewers     Int      @default(0)
+  targetlinks String[]
+  published   Boolean  @default(false)
+  language    String   @default("ar")
+  questions   String[]
+  comments    String[]
+  createdDate DateTime @default(now())
+  updatedDate DateTime @updatedAt
+}
+
+model BlogComment {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  title     String @default("")
+  like      Int    @default(0)
+  dislike   Int    @default(0)
+  postID    String @default("")
+  postTitle String @default("")
+
+  userID      String   @default("")
+  useerAvatar String   @default("")
+  createdDate DateTime @default(now())
+  updatedDate DateTime @updatedAt
+}
+
+model BlogLink {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  title       String   @default("")
+  slug        String   @default("")
+  language    String   @default("")
+  userID      String   @default("")
+  useerAvatar String   @default("")
+  createdDate DateTime @default(now())
+  updatedDate DateTime @updatedAt
+}
+
+model Iplog {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  ip       String @default("")
+  counter  Int    @default(0)
+  city     String @default("")
+  region   String @default("")
+  country  String @default("")
+  loc      String @default("")
+  org      String @default("")
+  timezone String @default("")
+   createdDate DateTime @default(now())
+  updatedDate DateTime @updatedAt
+}
+
+model Question {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  slug          String   @default("")
+  postID        String   @db.ObjectId
+  postTitle     String   @default("")
+  Question      String   @default("")
+  published     Boolean  @default(false)
+  createdDate   DateTime @default(now())
+  updatedDate   DateTime @updatedAt
+  publishedDate DateTime @default(now())
+  answersID     String[]
+
+  userID     String @default("")
+  userAvatar String @default("")
+}
+
+model Answer {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  Answer      String   @default("")
+  QuestionId  String   @default("")
+  createdDate DateTime @default(now())
+  updatedDate DateTime @updatedAt
+  userID      String   @default("")
+  userAvatar  String   @default("")
+}
